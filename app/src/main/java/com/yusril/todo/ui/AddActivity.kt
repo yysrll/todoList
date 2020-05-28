@@ -1,31 +1,43 @@
-package com.yusril.todo
+package com.yusril.todo.ui
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.TimePicker
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.yusril.todo.R
+import com.yusril.todo.db.todo.Todo
+import com.yusril.todo.ui.TodoViewModel
 import kotlinx.android.synthetic.main.activity_add.*
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AddActivity : AppCompatActivity(), View.OnClickListener {
 
     private var buttonDate: Button? = null
     private var textViewDate: TextView? = null
     private var cal = Calendar.getInstance()
+    private lateinit var todoViewModel: TodoViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
         OnClickTime()
 
-        //INTENT FOR CANCEL BUTTON
+        todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
+
+        //INTENT FOR BUTTON
+
+        val btnMoveActivityData: Button = findViewById(R.id.button)
+        btnMoveActivityData.setOnClickListener(this)
 
         val btnMoveActivity: Button = findViewById(R.id.button_cancel)
         btnMoveActivity.setOnClickListener(this)
@@ -71,7 +83,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
     //TIME PICKER
 
     private fun OnClickTime() {
-        val textViewDate = findViewById<TextView>(R.id.in_time)
+        val textViewTime = findViewById<TextView>(R.id.in_time)
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
         timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
             var am_pm = ""
@@ -85,27 +97,76 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 else -> am_pm = "AM"
             }
-            if (textViewDate != null) {
+            if (textViewTime != null) {
                 val hour = if (hour < 10) "0" + hour else hour
                 val min = if (minute < 10) "0" + minute else minute
                 // display format of time
-                val msg = "Time is: $hour : $min $am_pm"
-                textViewDate.text = msg
-                textViewDate.visibility = ViewGroup.VISIBLE
+                val msg = "$hour:$min $am_pm"
+                textViewTime.text = msg
+                textViewTime.visibility = ViewGroup.VISIBLE
             }
         }
     }
 
+    fun formatDate(date: Date, format: String): String{
+        return date.toString(format)
+    }
+
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
+
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
 
 
-//BUTTON CANCEL
 
-    override fun onClick(v: View) {
+//BUTTON
+    override fun onClick(v: View) {    val currentDate = getCurrentDateTime()
+    val dateCreated = formatDate(currentDate, "dd/MM/yy HH:mm:ss")
+    val dateUpdate = dateCreated
+    val title = findViewById<EditText>(R.id.input_todo).text.toString()
+    val description = findViewById<EditText>(R.id.input_desc).text.toString()
+    val dueDate = findViewById<TextView>(R.id.due_date).text.toString()
+    val dueTime = findViewById<TextView>(R.id.in_date).text.toString()
+
+    val todo = Todo(
+        title = title,
+        desc = description,
+        dateCreated = dateCreated,
+        dateUpdated = dateUpdate,
+        dueDate = dueDate,
+        dueTime = dueTime,
+        remindMe = true
+    )
+
         when (v.id) {
             R.id.button_cancel -> {
                 val moveIntent = Intent(this@AddActivity, MainActivity::class.java)
                 startActivity(moveIntent)
             }
+
+            R.id.button -> {
+                val moveWithDataIntent = Intent(this@AddActivity, MainActivity::class.java)
+
+                todoViewModel.insertTodo(todo)
+
+                startActivity(moveWithDataIntent)
+            }
         }
     }
+
+
+
+
+//    override fun onClick(v: View) {
+//        when (v.id) {
+//            R.id.button_cancel -> {
+//                val moveIntent = Intent(this@AddActivity, MainActivity::class.java)
+//                startActivity(moveIntent)
+//            }
+//        }
+//    }
 }

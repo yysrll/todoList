@@ -6,34 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/description"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/time"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/times"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="parent @id/title"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            tools:listitem="@layout/item_row_todo" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_add"
