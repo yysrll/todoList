@@ -13,4 +13,7 @@
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
     <string name="add_text">+</string>
+    <string name="title">note title</string>
+    <string name="description">Description</string>
+    <string name="times">2 More days</string>
 </resources>
