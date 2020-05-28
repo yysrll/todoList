@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">To Do</string>
+    <string name="what_is_to_be_done">What is to be done</string>
+    <string name="enter_your_plan">Enter your plan</string>
+    <string name="desc">Description</string>
+    <string name="input_desc">Enter your description</string>
+    <string name="due_date">Due date</string>
+    <string name="date">dd-mm-yyyy</string>
+    <string name="btn_date">Date</string>
+    <string name="time">hh:mm</string>
+    <string name="btn_time">Time</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="add_text">+</string>
+</resources>
