@@ -17,4 +17,7 @@
     <string name="description">Description</string>
     <string name="times">2 More days</string>
     <string name="update">update</string>
+    <string name="sort">sort</string>
+    <string name="by_create">By create</string>
+    <string name="by_doe">By doe</string>
 </resources>

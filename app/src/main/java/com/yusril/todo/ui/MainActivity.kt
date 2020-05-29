@@ -3,6 +3,7 @@ package com.yusril.todo.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -16,6 +17,11 @@ import com.yusril.todo.util.Commons
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    companion object{
+        var sortCreate = true
+    }
+
 
     private lateinit var todoViewModel: TodoViewModel
     private lateinit var todoAdapter: TodoAdapter
@@ -74,6 +80,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_add -> {
                 val moveIntent = Intent(this@MainActivity, AddActivity::class.java)
                 startActivity(moveIntent)
+            }
+        }
+    }
+
+
+
+
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.sort -> true
+            R.id.by_create -> {
+                sortCreate = true
+                true
+            }
+            R.id.by_doe -> {
+                sortCreate = false
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
     }

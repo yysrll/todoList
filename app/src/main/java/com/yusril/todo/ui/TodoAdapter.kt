@@ -31,6 +31,13 @@ class TodoAdapter(private val context: Context?, private val listener: (Todo, In
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         if (context != null) {
+            val todoHolder = holder
+            val sortedList = todos.sortedWith(
+                if(MainActivity.sortCreate)
+                    compareBy({it.dateCreated}, {it.dateUpdated})
+                else{
+                    compareBy({it.dueDate}, {it.dueTime})
+                })
             holder.bindItem(context, todos[position], listener)
         }
     }
