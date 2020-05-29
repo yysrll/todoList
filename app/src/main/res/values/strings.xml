@@ -20,4 +20,5 @@
     <string name="sort">sort</string>
     <string name="by_create">By create</string>
     <string name="by_doe">By doe</string>
+    <string name="search">search</string>
 </resources>
